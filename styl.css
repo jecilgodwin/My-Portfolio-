@@ -1,0 +1,433 @@
+/* =========================================================
+   STUDENT PORTFOLIO — Jecil Godwin
+   Single external stylesheet (styl.css) for all 6 pages
+   Theme: Navy Blue + White only
+   ========================================================= */
+
+/* ---------- Design tokens ---------- */
+:root{
+  --navy-950:#040d1f;   /* deepest shade  - footer / active nav text bg   */
+  --navy-900:#081b36;   /* header / nav base                              */
+  --navy-800:#0d2c56;   /* section / hero background                      */
+  --navy-700:#153c70;   /* cards, borders                                  */
+  --navy-600:#1f4f8c;   /* hover fills, accents                           */
+  --white:#ffffff;
+  --off-white:#eef3fa;  /* near-white tint, used for light section bands  */
+  --font-main:'Dubai Medium','Dubai','Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+  --nav-width:210px;
+  --radius:4px;
+}
+
+/* ---------- Reset ---------- */
+*,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+html{ scroll-behavior:smooth; }
+img{ max-width:100%; display:block; }
+a{ color:inherit; text-decoration:none; }
+ul{ list-style:none; }
+
+body{
+  font-family:var(--font-main);
+  color:var(--navy-900);
+  background:var(--white);
+  line-height:1.7;
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:1fr;
+  grid-template-rows:auto 1fr auto;
+}
+
+:focus-visible{ outline:2px solid var(--navy-600); outline-offset:2px; }
+
+/* ---------- Header ---------- */
+.site-header{
+  grid-column:1;
+  grid-row:1;
+  background:var(--navy-950);
+  color:var(--white);
+  padding:1.4rem 9.5rem 1.4rem 2.2rem;
+  display:flex;
+  align-items:baseline;
+  gap:.85rem;
+  border-bottom:1px solid var(--navy-700);
+}
+.logo{
+  font-size:1.4rem;
+  font-weight:700;
+  letter-spacing:.06em;
+}
+.logo .logo-dot{
+  color:var(--white);
+  animation:blink 1.6s step-end infinite;
+}
+@keyframes blink{ 0%,49%{opacity:1;} 50%,100%{opacity:0;} }
+.tagline{
+  font-size:.78rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:#a9bedd;
+}
+
+/* ---------- Nav dropdown (top-right corner) ---------- */
+.side-nav{
+  position:fixed;
+  top:1.1rem;
+  right:1.5rem;
+  z-index:100;
+  font-family:var(--font-main);
+}
+
+/* the always-visible trigger button */
+.nav-toggle{
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+  display:flex;
+  align-items:center;
+  gap:.6rem;
+  width:100%;
+  background:var(--navy-900);
+  color:var(--white);
+  border:1px solid var(--navy-700);
+  border-radius:var(--radius);
+  padding:.65rem 1.1rem;
+  font-family:var(--font-main);
+  font-size:.85rem;
+  letter-spacing:.05em;
+  cursor:pointer;
+  box-shadow:0 6px 18px rgba(4,13,31,.28);
+  transition:color .3s ease;
+}
+.nav-toggle::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:var(--white);
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform .35s cubic-bezier(.65,0,.35,1);
+  z-index:-1;
+}
+.nav-toggle:hover,
+.nav-toggle:focus-visible,
+.nav-toggle[aria-expanded="true"]{ color:var(--navy-900); }
+.nav-toggle:hover::before,
+.nav-toggle:focus-visible::before,
+.nav-toggle[aria-expanded="true"]::before{ transform:scaleX(1); }
+
+.nav-toggle-icon{
+  margin-left:auto;
+  display:inline-block;
+  transition:transform .3s ease;
+}
+.nav-toggle[aria-expanded="true"] .nav-toggle-icon{ transform:rotate(180deg); }
+
+/* the dropdown panel: still a vertical button group, just tucked under the trigger */
+.side-nav-inner{
+  position:absolute;
+  top:calc(100% + .6rem);
+  right:0;
+  min-width:200px;
+  display:flex;
+  flex-direction:column;
+  background:var(--navy-900);
+  border:1px solid var(--navy-700);
+  border-radius:var(--radius);
+  overflow:hidden;
+  box-shadow:0 16px 34px rgba(4,13,31,.35);
+  opacity:0;
+  transform:translateY(-8px);
+  pointer-events:none;
+  transition:opacity .22s ease, transform .22s ease;
+}
+.side-nav-inner.is-open{
+  opacity:1;
+  transform:translateY(0);
+  pointer-events:auto;
+}
+
+.nav-btn{
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+  display:block;
+  width:100%;
+  padding:.85rem 1.2rem;
+  font-family:var(--font-main);
+  font-size:.86rem;
+  letter-spacing:.03em;
+  color:var(--white);
+  border-bottom:1px solid var(--navy-700);
+  transition:color .3s ease, padding-left .3s ease;
+}
+.nav-btn:last-child{ border-bottom:none; }
+.nav-btn::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:var(--white);
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform .35s cubic-bezier(.65,0,.35,1);
+  z-index:-1;
+}
+.nav-btn:hover,
+.nav-btn:focus-visible{
+  color:var(--navy-900);
+  padding-left:1.5rem;
+}
+.nav-btn:hover::before,
+.nav-btn:focus-visible::before{ transform:scaleX(1); }
+
+.nav-btn.is-active{
+  color:var(--navy-950);
+  background:var(--white);
+  font-weight:700;
+  border-left:4px solid var(--navy-950);
+}
+.nav-btn.is-active::before{ display:none; }
+
+/* ---------- Main content ---------- */
+main{
+  grid-column:1;
+  grid-row:2;
+  padding:3.2rem 2.2rem 4rem;
+}
+.container{ max-width:860px; margin:0 auto; }
+
+/* Centered main headings, every page */
+.page-heading{
+  text-align:center;
+  font-size:clamp(1.5rem,3.4vw,2.3rem);
+  font-weight:700;
+  color:var(--navy-900);
+  line-height:1.35;
+  margin-bottom:.75rem;
+}
+.page-kicker{
+  display:block;
+  text-align:center;
+  font-size:.78rem;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--navy-600);
+  margin-bottom:.9rem;
+}
+.heading-rule{
+  width:64px;
+  height:3px;
+  background:var(--navy-900);
+  margin:1.1rem auto 2.4rem;
+}
+
+p{ margin-bottom:1.1rem; color:var(--navy-900); }
+p.lede{ font-size:1.06rem; }
+
+/* ---------- Buttons (all non-nav buttons across the site) ---------- */
+.btn{
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+  display:inline-block;
+  font-family:var(--font-main);
+  font-size:.92rem;
+  letter-spacing:.03em;
+  padding:.85rem 1.9rem;
+  border:2px solid var(--navy-900);
+  border-radius:var(--radius);
+  color:var(--white);
+  background:var(--navy-900);
+  cursor:pointer;
+  transition:color .3s ease;
+}
+.btn::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:var(--white);
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform .35s cubic-bezier(.65,0,.35,1);
+  z-index:-1;
+}
+.btn:hover,
+.btn:focus-visible{ color:var(--navy-900); }
+.btn:hover::before,
+.btn:focus-visible::before{ transform:scaleX(1); }
+
+.btn-outline{
+  background:transparent;
+  color:var(--navy-900);
+}
+.btn-outline::before{ background:var(--navy-900); }
+.btn-outline:hover,
+.btn-outline:focus-visible{ color:var(--white); }
+
+.btn-row{
+  display:flex;
+  gap:1rem;
+  flex-wrap:wrap;
+  justify-content:center;
+  margin:1.6rem 0 .4rem;
+}
+
+/* ---------- Bio / info card (About page) ---------- */
+.bio-card{
+  display:flex;
+  gap:1.2rem;
+  flex-wrap:wrap;
+  justify-content:center;
+  margin:0 0 2.2rem;
+}
+.bio-fact{
+  background:var(--off-white);
+  border:1px solid var(--navy-700);
+  border-radius:var(--radius);
+  padding:.9rem 1.4rem;
+  min-width:150px;
+  text-align:center;
+}
+.bio-fact span{
+  display:block;
+  font-size:.72rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--navy-600);
+  margin-bottom:.3rem;
+}
+.bio-fact strong{ font-size:1.05rem; color:var(--navy-950); }
+
+/* ---------- Skill blocks ---------- */
+.skill-block{
+  border-top:1px solid var(--navy-700);
+  padding:1.6rem 0;
+}
+.skill-block h2{
+  font-size:1.1rem;
+  color:var(--navy-950);
+  margin-bottom:.6rem;
+}
+.chip-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.55rem;
+  margin-top:.9rem;
+}
+.chip{
+  font-size:.78rem;
+  letter-spacing:.02em;
+  padding:.4rem .85rem;
+  border:1px solid var(--navy-700);
+  border-radius:999px;
+  color:var(--navy-900);
+  background:var(--off-white);
+}
+
+/* ---------- Project cards ---------- */
+.project-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:1.6rem;
+  margin-top:1rem;
+}
+.project-card{
+  position:relative;
+  border:1px solid var(--navy-700);
+  border-radius:var(--radius);
+  overflow:hidden;
+  background:var(--off-white);
+  display:flex;
+  flex-direction:column;
+}
+.project-thumb{
+  border-bottom:1px solid var(--navy-700);
+  background:var(--navy-900);
+}
+.project-body{ padding:1.2rem 1.3rem 1.4rem; flex:1; display:flex; flex-direction:column; }
+.project-index{
+  font-size:.72rem;
+  letter-spacing:.16em;
+  color:var(--navy-600);
+  margin-bottom:.4rem;
+}
+.project-body h2{ font-size:1.05rem; color:var(--navy-950); margin-bottom:.5rem; }
+.project-body p{ font-size:.92rem; flex:1; }
+
+/* ---------- Achievements ---------- */
+.achieve-block{ margin-top:.4rem; }
+
+/* ---------- Contact ---------- */
+.contact-wrap{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:2rem;
+  margin-top:1rem;
+}
+.contact-form{
+  display:flex;
+  flex-direction:column;
+  gap:.9rem;
+}
+.contact-form label{
+  font-size:.78rem;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--navy-600);
+  margin-bottom:.35rem;
+  display:block;
+}
+.contact-form input,
+.contact-form textarea{
+  width:100%;
+  font-family:var(--font-main);
+  font-size:.95rem;
+  padding:.7rem .8rem;
+  border:1px solid var(--navy-700);
+  border-radius:var(--radius);
+  background:var(--white);
+  color:var(--navy-900);
+}
+.contact-form textarea{ resize:vertical; min-height:120px; }
+.contact-direct{
+  background:var(--navy-900);
+  color:var(--white);
+  border-radius:var(--radius);
+  padding:1.6rem 1.7rem;
+}
+.contact-direct h2{ font-size:1.05rem; margin-bottom:.8rem; }
+.contact-direct a{ color:var(--white); border-bottom:1px solid var(--navy-600); }
+.contact-direct p{ color:#dbe6f7; }
+.thank-you{
+  margin-top:2.4rem;
+  padding-top:1.6rem;
+  border-top:1px solid var(--navy-700);
+  text-align:center;
+  color:var(--navy-700);
+  font-style:italic;
+}
+
+/* ---------- Footer (every page) ---------- */
+.site-footer{
+  grid-column:1;
+  grid-row:3;
+  background:var(--navy-950);
+  color:var(--white);
+  padding:1.6rem 2.2rem;
+  border-top:1px solid var(--navy-700);
+}
+.footer-inner{
+  max-width:860px;
+  margin:0 auto;
+  text-align:center;
+}
+.footer-name{ font-weight:700; letter-spacing:.03em; margin-bottom:.35rem; }
+.footer-contact{ font-size:.86rem; color:#c3d3ec; margin-bottom:0; }
+.footer-contact span{ margin:0 .5rem; color:var(--navy-600); }
+
+/* ---------- Responsive: keep the dropdown tidy on small screens ---------- */
+@media (max-width:760px){
+  .site-header{ padding-right:1.6rem; }
+  .tagline{ display:none; }
+  .side-nav{ top:.8rem; right:.9rem; }
+  .nav-toggle{ padding:.55rem .9rem; font-size:.8rem; }
+  .side-nav-inner{ min-width:180px; }
+}
